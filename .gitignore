@@ -1,0 +1,9 @@
+.env
+node_modules
+dist
+src/site/_inludes/css/*
+src/site/_data/*.json
+
+# Local Netlify folder
+.netlify
+.DS_Store
