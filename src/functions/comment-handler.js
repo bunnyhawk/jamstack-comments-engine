@@ -16,8 +16,8 @@ exports.handler = async function (event, context, callback) {
   var body = JSON.parse(event.body);
 
   // prepare call to the Slack API
-  var slackURL = process.env.SLACK_WEBHOOK_URL
-  // var slackURL = 'https://hooks.slack.com/services/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';
+  // var slackURL = process.env.SLACK_WEBHOOK_URL
+  var slackURL = 'https://hooks.slack.com/services/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';
   var slackPayload = {
     "text": "New comment on " + URL,
     "attachments": [
