@@ -44,38 +44,39 @@ exports.handler = async function (event, context, callback) {
 
   // prepare call to the Slack API
   var slackURL = process.env.SLACK_WEBHOOK_URL
+  var slackPayload = {
+    "text": "New comment on " + URL,
+    "attachments": [
+      {
+        "fallback": "New comment on the comment example site",
+        "color": "#444",
+        "author_name": payload.data.email,
+        "title": payload.data.path,
+        "title_link": URL + payload.data.path,
+        "text": payload.data.comment
+      },
+      {
+        "fallback": "Manage comments on " + URL,
+        "callback_id": "comment-action",
+        "actions": [
+          {
+            "type": "button",
+            "text": "Approve comment",
+            "name": "approve",
+            "value": payload.id
+          },
+          {
+            "type": "button",
+            "style": "danger",
+            "text": "Delete comment",
+            "name": "delete",
+            "value": payload.id
+          }
+        ]
+      }]
+  }
   app.message(function () {
-    app.client.chat.postMessage({
-      "text": "New comment on " + URL,
-      "attachments": [
-        {
-          "fallback": "New comment on the comment example site",
-          "color": "#444",
-          "author_name": payload.data.email,
-          "title": payload.data.path,
-          "title_link": URL + payload.data.path,
-          "text": payload.data.comment
-        },
-        {
-          "fallback": "Manage comments on " + URL,
-          "callback_id": "comment-action",
-          "actions": [
-            {
-              "type": "button",
-              "text": "Approve comment",
-              "name": "approve",
-              "value": payload.id
-            },
-            {
-              "type": "button",
-              "style": "danger",
-              "text": "Delete comment",
-              "name": "delete",
-              "value": payload.id
-            }
-          ]
-        }]
-    });
+    app.client.chat.postMessage(slackPayload);
   });
 
   const slackEvent = {
@@ -104,13 +105,4 @@ exports.handler = async function (event, context, callback) {
     })
     return console.log(msg);
   });
-
-
-
-
-
-  // return {
-  //   statusCode: 200,
-  //   body: ""
-  // };
 }
