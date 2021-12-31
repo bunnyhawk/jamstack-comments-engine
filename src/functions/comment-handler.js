@@ -1,21 +1,21 @@
 'use strict';
 
 var request = require("request");
-var bolt = require('@slack/bolt');
+// var bolt = require('@slack/bolt');
 
 // populate environment variables locally.
 require('dotenv').config()
 
-var expressReceiver = new bolt.ExpressReceiver({
-  signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
-  processBeforeResponse: true
-});
+// var expressReceiver = new bolt.ExpressReceiver({
+//   signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
+//   processBeforeResponse: true
+// });
 
-var app = new bolt.App({
-  signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
-  token: `${process.env.SLACK_BOT_TOKEN}`,
-  receiver: expressReceiver
-});
+// var app = new bolt.App({
+//   signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
+//   token: `${process.env.SLACK_BOT_TOKEN}`,
+//   receiver: expressReceiver
+// });
 
 var URL = "https://adoring-keller-21f535.netlify.app";
 
@@ -65,21 +65,21 @@ exports.handler = async function (event, context, callback) {
         ]
       }]
   }
-  app.message(function () {
-    app.client.chat.postMessage(slackPayload);
-  });
+  // app.message(function () {
+  //   app.client.chat.postMessage(slackPayload);
+  // });
 
-  const slackEvent = {
-    body: payload,
-    ack: function (response) {
-      return {
-        statusCode: 200,
-        body: response ?? ""
-      };
-    }
-  };
+  // const slackEvent = {
+  //   body: payload,
+  //   ack: function (response) {
+  //     return {
+  //       statusCode: 200,
+  //       body: response ?? ""
+  //     };
+  //   }
+  // };
 
-  app.processEvent(slackEvent);
+  // app.processEvent(slackEvent);
 
   // // post the notification to Slack
   request.post({ url: slackURL, json: slackPayload }, function (err, httpResponse, body) {
@@ -95,4 +95,4 @@ exports.handler = async function (event, context, callback) {
     })
     return console.log(msg);
   });
-}
+};
