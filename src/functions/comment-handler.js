@@ -10,7 +10,7 @@ const URL = "https://adoring-keller-21f535.netlify.app";
 /*
   Our serverless function handler
 */
-exports.handler = function handler(event, context, callback) {
+exports.handler = function (event, context, callback) {
 
   // get the arguments from the notification
   var body = JSON.parse(event.body);
