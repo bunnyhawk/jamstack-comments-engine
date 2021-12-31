@@ -8,7 +8,7 @@ module.exports = () => {
     SLACK_WEBHOOK_URL,
     SITE_NAME
   } = process.env;
-
+  console.log(process.env);
   return {
     ready: NETLIFY_AUTH_TOKEN && SLACK_WEBHOOK_URL ? true : false,
     NETLIFY_AUTH_TOKEN_ready: NETLIFY_AUTH_TOKEN ? true : false,
