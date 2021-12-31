@@ -19,13 +19,28 @@ require('dotenv').config()
 
 const URL = "https://adoring-keller-21f535.netlify.app";
 
+function parseRequestBody(stringBody: string | null) {
+  try {
+    return JSON.parse(stringBody ?? "");
+  } catch {
+    return undefined;
+  }
+}
+
 /*
   Our serverless function handler
 */
 exports.handler = async function (event, context, callback) {
 
   // get the arguments from the notification
-  var body = JSON.parse(event.body);
+  var payload = parseRequestBody(event.body);
+
+  if (payload && payload.type && payload.type === 'url_verification') {
+    return {
+      statusCode: 200,
+      body: payload.challenge
+    };
+  }
 
   // prepare call to the Slack API
   var slackURL = process.env.SLACK_WEBHOOK_URL
@@ -35,10 +50,10 @@ exports.handler = async function (event, context, callback) {
       {
         "fallback": "New comment on the comment example site",
         "color": "#444",
-        "author_name": body.data.email,
-        "title": body.data.path,
-        "title_link": URL + body.data.path,
-        "text": body.data.comment
+        "author_name": payload.data.email,
+        "title": payload.data.path,
+        "title_link": URL + payload.data.path,
+        "text": payload.data.comment
       },
       {
         "fallback": "Manage comments on " + URL,
@@ -48,14 +63,14 @@ exports.handler = async function (event, context, callback) {
             "type": "button",
             "text": "Approve comment",
             "name": "approve",
-            "value": body.id
+            "value": payload.id
           },
           {
             "type": "button",
             "style": "danger",
             "text": "Delete comment",
             "name": "delete",
-            "value": body.id
+            "value": payload.id
           }
         ]
       }]
