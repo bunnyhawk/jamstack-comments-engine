@@ -3,6 +3,9 @@
 var request = require("request");
 var bolt = require('@slack/bolt');
 
+// populate environment variables locally.
+require('dotenv').config()
+
 const expressReceiver = new bolt.ExpressReceiver({
   signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
   processBeforeResponse: true
@@ -14,8 +17,7 @@ const app = new bolt.App({
   receiver: expressReceiver
 });
 
-// populate environment variables locally.
-require('dotenv').config()
+
 
 const URL = "https://adoring-keller-21f535.netlify.app";
 
