@@ -5,7 +5,7 @@ var request = require("request");
 // populate environment variables locally.
 require('dotenv').config()
 
-const URL = "https://jamstack-comments.netlify.com";
+const URL = "https://adoring-keller-21f535.netlify.app";
 
 /*
   Our serverless function handler
@@ -19,7 +19,7 @@ export function handler(event, context, callback) {
   var slackURL = process.env.SLACK_WEBHOOK_URL
   var slackPayload = {
     "text": "New comment on " + URL,
-	  "attachments": [
+    "attachments": [
       {
         "fallback": "New comment on the comment example site",
         "color": "#444",
@@ -47,21 +47,21 @@ export function handler(event, context, callback) {
           }
         ]
       }]
-    };
+  };
 
-    // post the notification to Slack
-    request.post({url:slackURL, json: slackPayload}, function(err, httpResponse, body) {
-      var msg;
-      if (err) {
-        msg = 'Post to Slack failed:' + err;
-      } else {
-        msg = 'Post to Slack successful!  Server responded with:' + body;
-      }
-      callback(null, {
-        statusCode: 200,
-        body: msg
-      })
-      return console.log(msg);
-    });
+  // post the notification to Slack
+  request.post({ url: slackURL, json: slackPayload }, function (err, httpResponse, body) {
+    var msg;
+    if (err) {
+      msg = 'Post to Slack failed:' + err;
+    } else {
+      msg = 'Post to Slack successful!  Server responded with:' + body;
+    }
+    callback(null, {
+      statusCode: 200,
+      body: msg
+    })
+    return console.log(msg);
+  });
 
 }
