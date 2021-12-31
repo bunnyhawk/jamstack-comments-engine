@@ -6,34 +6,24 @@ var bolt = require('@slack/bolt');
 // populate environment variables locally.
 require('dotenv').config()
 
-const expressReceiver = new bolt.ExpressReceiver({
+var expressReceiver = new bolt.ExpressReceiver({
   signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
   processBeforeResponse: true
 });
 
-const app = new bolt.App({
+var app = new bolt.App({
   signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
   token: `${process.env.SLACK_BOT_TOKEN}`,
   receiver: expressReceiver
 });
 
-const URL = "https://adoring-keller-21f535.netlify.app";
+var URL = "https://adoring-keller-21f535.netlify.app";
 
-function parseRequestBody(stringBody) {
-  try {
-    return JSON.parse(stringBody ?? "");
-  } catch {
-    return undefined;
-  }
-}
 
-/*
-  Our serverless function handler
-*/
 exports.handler = async function (event, context, callback) {
 
   // get the arguments from the notification
-  var payload = parseRequestBody(event.body);
+  var payload = JSON.parse(event.body);
 
   if (payload && payload.type && payload.type === 'url_verification') {
     return {
