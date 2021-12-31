@@ -43,7 +43,7 @@ exports.handler = async function (event, context, callback) {
   }
 
   // prepare call to the Slack API
-  // var slackURL = process.env.SLACK_WEBHOOK_URL
+  var slackURL = process.env.SLACK_WEBHOOK_URL
   app.message(function () {
     app.client.chat.postMessage({
       "text": "New comment on " + URL,
