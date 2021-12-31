@@ -19,7 +19,7 @@ require('dotenv').config()
 
 const URL = "https://adoring-keller-21f535.netlify.app";
 
-function parseRequestBody(stringBody: string | null) {
+function parseRequestBody(stringBody) {
   try {
     return JSON.parse(stringBody ?? "");
   } catch {
