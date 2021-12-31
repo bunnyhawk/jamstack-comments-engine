@@ -78,22 +78,6 @@ exports.handler = async function (event, context, callback) {
     });
   });
 
-  // // post the notification to Slack
-  // request.post({ url: slackURL, json: slackPayload }, function (err, httpResponse, body) {
-  //   var msg;
-  //   if (err) {
-  //     msg = 'Post to Slack failed:' + err;
-  //   } else {
-  //     msg = 'Post to Slack successful!  Server responded with:' + body;
-  //   }
-  //   callback(null, {
-  //     statusCode: 200,
-  //     body: msg
-  //   })
-  //   return console.log(msg);
-  // });
-
-
   const slackEvent = {
     body: payload,
     ack: function (response) {
@@ -103,10 +87,30 @@ exports.handler = async function (event, context, callback) {
       };
     }
   };
+
   app.processEvent(slackEvent);
 
-  return {
-    statusCode: 200,
-    body: ""
-  };
+  // // post the notification to Slack
+  request.post({ url: slackURL, json: slackPayload }, function (err, httpResponse, body) {
+    var msg;
+    if (err) {
+      msg = 'Post to Slack failed:' + err;
+    } else {
+      msg = 'Post to Slack successful!  Server responded with:' + body;
+    }
+    callback(null, {
+      statusCode: 200,
+      body: msg
+    })
+    return console.log(msg);
+  });
+
+
+
+
+
+  // return {
+  //   statusCode: 200,
+  //   body: ""
+  // };
 }
